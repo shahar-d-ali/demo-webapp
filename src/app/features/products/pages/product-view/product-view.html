@@ -1,0 +1,61 @@
+<div class="prod-view" *ngIf="!isLoading() && product() as p">
+  <div class="prod-view__crumb">
+    <a routerLink="/products" class="btn btn-ghost prod-view__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Products
+    </a>
+    <span class="prod-view__crumb-sep">/</span>
+    <span>{{ p.name }}</span>
+  </div>
+
+  <div class="prod-view__head">
+    <div>
+      <div class="prod-view__kicker">Product details</div>
+      <h2>{{ p.name }}</h2>
+    </div>
+    <div class="prod-view__head-actions">
+      <button type="button" class="btn btn-icon btn-ghost" title="Edit" (click)="onEdit()">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+      </button>
+      <button type="button" class="btn btn-icon btn-ghost" title="Back" (click)="onBack()">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-left"></use></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="prod-view__panel">
+    <div class="prod-view__row">
+      <label>Name</label>
+      <span>{{ p.name }}</span>
+    </div>
+    <div class="prod-view__row">
+      <label>SKU</label>
+      <span>{{ p.sku }}</span>
+    </div>
+    <div class="prod-view__row prod-view__row--full">
+      <label>Description</label>
+      <span>{{ p.description || '—' }}</span>
+    </div>
+    <div class="prod-view__row">
+      <label>Brand</label>
+      <span>{{ p.brand || '—' }}</span>
+    </div>
+    <div class="prod-view__row">
+      <label>Category</label>
+      <span>{{ p.category || '—' }}</span>
+    </div>
+    <div class="prod-view__row">
+      <label>Status</label>
+      <span class="tag" [class.tag-accent]="p.active" [class.tag-neutral]="!p.active">
+        {{ p.active ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="prod-view__actions">
+    <button type="button" class="btn btn-secondary" (click)="onBack()">Close</button>
+    <button type="button" class="btn btn-primary" (click)="onEdit()">Edit product</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading()" class="prod-view__loading">Loading product details…</div>

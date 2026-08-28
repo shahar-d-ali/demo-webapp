@@ -1,0 +1,14 @@
+.app-header {
+	min-height: 56px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0 12px;
+	border-bottom: 2px solid var(--color-divider);
+	background: var(--color-bg);
+	color: var(--color-neutral-700);
+}
+
+.app-header__spacer {
+	flex: 1;
+}

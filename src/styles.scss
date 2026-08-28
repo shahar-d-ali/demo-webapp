@@ -1,1 +1,163 @@
-/* You can add global styles to this file, and also import other style files */
+// Include theming for Angular Material with `mat.theme()`.
+@use '@angular/material' as mat;
+// Modernist design tokens + component classes (Demo VMS Redesign).
+@use 'styles/modernist';
+
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
+
+/* ==========================================================================
+   1. CONSTANTS & VARIABLES (Integrated with Material 3)
+   ========================================================================== */
+
+// Colors - Mapped to Material 3 System Variables
+$primary:       var(--mat-sys-primary);
+$tertiary:      var(--mat-sys-tertiary);
+$error:         var(--mat-sys-error);
+$bg-surface:    var(--mat-sys-surface);
+$bg-surface-container: var(--mat-sys-surface-container);
+
+$text-main:     var(--mat-sys-on-surface);
+$text-muted:    var(--mat-sys-on-surface-variant);
+$text-on-primary: var(--mat-sys-on-primary);
+
+// Font Weights
+$font-weight-light:  300;
+$font-weight-normal: 400;
+$font-weight-bold:   700;
+$font-weight-bolder: 900;
+
+// Font Sizes Map
+$font-sizes: (
+  'xs':   0.75rem,  // 12px
+  'sm':   0.875rem, // 14px
+  'base': 1rem,     // 16px
+  'md':   1.125rem, // 18px
+  'lg':   1.5rem,   // 24px
+  'xl':   2rem,     // 32px
+  'xxl':  3rem      // 48px
+);
+
+// Spacing Map (Base spacer: 1rem/16px)
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25, // 4px
+  2: $spacer * 0.5,  // 8px
+  3: $spacer,        // 16px
+  4: $spacer * 1.5,  // 24px
+  5: $spacer * 3     // 48px
+);
+
+
+/* ==========================================================================
+   2. TYPOGRAPHY UTILITIES
+   ========================================================================== */
+
+// Font Size Classes (.fs-sm, .fs-lg, etc.)
+@each $size, $value in $font-sizes {
+  .fs-#{$size} {
+    font-size: $value !important;
+  }
+}
+
+// Font Weight Classes
+.fw-light   { font-weight: $font-weight-light !important; }
+.fw-normal  { font-weight: $font-weight-normal !important; }
+.fw-bold    { font-weight: $font-weight-bold !important; }
+.fw-bolder  { font-weight: $font-weight-bolder !important; }
+
+// Text Color Utilities
+.text-primary { color: $primary !important; }
+.text-tertiary{ color: $tertiary !important; }
+.text-error   { color: $error !important; }
+.text-main    { color: $text-main !important; }
+.text-muted   { color: $text-muted !important; }
+
+// Background Color Utilities
+.bg-surface   { background-color: $bg-surface !important; }
+.bg-container { background-color: $bg-surface-container !important; }
+.bg-primary   {
+  background-color: $primary !important;
+  color: $text-on-primary !important;
+}
+
+
+/* ==========================================================================
+   3. SPACING UTILITIES (Margin & Padding)
+   ========================================================================== */
+
+@each $key, $val in $spacers {
+  // Margin
+  .m-#{$key}  { margin: $val !important; }
+  .mt-#{$key} { margin-top: $val !important; }
+  .mb-#{$key} { margin-bottom: $val !important; }
+  .ml-#{$key} { margin-left: $val !important; }
+  .mr-#{$key} { margin-right: $val !important; }
+  .mx-#{$key} { margin-left: $val !important; margin-right: $val !important; }
+  .my-#{$key} { margin-top: $val !important; margin-bottom: $val !important; }
+
+  // Padding
+  .p-#{$key}  { padding: $val !important; }
+  .pt-#{$key} { padding-top: $val !important; }
+  .pb-#{$key} { padding-bottom: $val !important; }
+  .pl-#{$key} { padding-left: $val !important; }
+  .pr-#{$key} { padding-right: $val !important; }
+  .px-#{$key} { padding-left: $val !important; padding-right: $val !important; }
+  .py-#{$key} { padding-top: $val !important; padding-bottom: $val !important; }
+}
+
+
+/* ==========================================================================
+   4. FLEXBOX UTILITIES
+   ========================================================================== */
+
+.d-flex         { display: flex !important; }
+.d-inline-flex  { display: inline-flex !important; }
+
+// Direction
+.flex-row       { flex-direction: row !important; }
+.flex-column    { flex-direction: column !important; }
+.flex-row-rev   { flex-direction: row-reverse !important; }
+.flex-col-rev   { flex-direction: column-reverse !important; }
+
+// Wrap
+.flex-wrap      { flex-wrap: wrap !important; }
+.flex-nowrap    { flex-wrap: nowrap !important; }
+
+// Justify Content
+.justify-start   { justify-content: flex-start !important; }
+.justify-end     { justify-content: flex-end !important; }
+.justify-center  { justify-content: center !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-around  { justify-content: space-around !important; }
+
+// Align Items
+.align-start     { align-items: flex-start !important; }
+.align-end       { align-items: flex-end !important; }
+.align-center    { align-items: center !important; }
+.align-stretch   { align-items: stretch !important; }
+.align-baseline  { align-items: baseline !important; }
+
+// Gap
+@each $key, $val in $spacers {
+  .gap-#{$key} { gap: $val !important; }
+}

@@ -1,0 +1,63 @@
+<div class="prod-form">
+  <div class="prod-form__crumb">
+    <a routerLink="/products" class="btn btn-ghost prod-form__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Products
+    </a>
+    <span class="prod-form__crumb-sep">/</span>
+    <span>Create</span>
+  </div>
+
+  <div class="prod-form__head">
+    <h2>Create product</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="prod-form__panel">
+    <div class="field">
+      <label for="prod-name">Name *</label>
+      <input id="prod-name" class="input" formControlName="name" placeholder="e.g., Cola Classic 330ml" />
+      <div class="field-error" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+        <span *ngIf="name?.hasError('required')">Name is required</span>
+        <span *ngIf="name?.hasError('minlength')">Name must be at least 2 characters</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="prod-sku">SKU *</label>
+      <input id="prod-sku" class="input" formControlName="sku" placeholder="e.g., SKU-0001" />
+      <div class="field-error" *ngIf="sku?.invalid && (sku?.dirty || sku?.touched)">
+        <span *ngIf="sku?.hasError('required')">SKU is required</span>
+        <span *ngIf="sku?.hasError('minlength')">SKU must be at least 2 characters</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="prod-description">Description</label>
+      <textarea id="prod-description" class="input" formControlName="description" rows="3" placeholder="Optional description"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="prod-brand">Brand</label>
+      <input id="prod-brand" class="input" formControlName="brand" placeholder="e.g., Acme" />
+    </div>
+
+    <div class="field">
+      <label for="prod-category">Category</label>
+      <input id="prod-category" class="input" formControlName="category" placeholder="e.g., Beverages" />
+    </div>
+
+    <label class="prod-form__checkbox">
+      <input type="checkbox" formControlName="active" />
+      Active
+    </label>
+
+    <div class="prod-form__actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isSubmitting()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting()">
+        {{ isSubmitting() ? 'Creating…' : 'Create product' }}
+      </button>
+    </div>
+  </form>
+</div>

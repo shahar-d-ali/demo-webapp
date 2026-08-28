@@ -1,0 +1,137 @@
+:host {
+	display: block;
+	padding: 24px;
+	color: var(--color-text);
+	font-family: var(--font-body);
+}
+
+.prod-list__crumb {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-neutral-600);
+	margin-bottom: 16px;
+}
+
+.prod-list__crumb-sep {
+	color: var(--color-neutral-400);
+}
+
+.prod-list__head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid var(--color-divider);
+
+	h2 {
+		margin: 0 0 4px;
+		font-size: 30px;
+	}
+}
+
+.prod-list__stat {
+	font-size: 12px;
+	color: var(--color-neutral-700);
+}
+
+.prod-list__add {
+	min-width: 170px;
+	height: 38px;
+	justify-content: flex-start;
+}
+
+.prod-list__toolbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px 0;
+}
+
+.prod-list__search {
+	position: relative;
+	flex: 1;
+	max-width: 340px;
+
+	svg {
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		color: var(--color-neutral-600);
+	}
+
+	.input {
+		padding-left: 32px;
+		height: 36px;
+	}
+}
+
+.prod-list__loading {
+	padding: 40px 0;
+	color: var(--color-neutral-700);
+	font-size: 13px;
+}
+
+.prod-list__table-wrap {
+	overflow: auto;
+}
+
+.prod-list__col-id {
+	width: 56px;
+}
+
+.prod-list__col-actions {
+	text-align: right;
+}
+
+.prod-list__id {
+	color: var(--color-neutral-600);
+	font-variant-numeric: tabular-nums;
+}
+
+.prod-list__name {
+	font-family: var(--font-heading);
+	font-weight: 800;
+}
+
+.prod-list__actions {
+	display: flex;
+	gap: 2px;
+	justify-content: flex-end;
+
+	.btn-ghost {
+		color: var(--color-neutral-700);
+
+		&:hover {
+			color: var(--color-accent);
+			background: var(--color-accent-100);
+		}
+	}
+}
+
+.prod-list__empty {
+	text-align: center;
+	color: var(--color-neutral-600);
+	padding: 32px 0;
+}
+
+.prod-list__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 14px;
+	border-top: 2px solid var(--color-divider);
+	margin-top: 8px;
+	font-size: 12px;
+	color: var(--color-neutral-700);
+}
+
+.prod-list__pager {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}

@@ -1,0 +1,63 @@
+<div class="loc-view" *ngIf="location() as loc">
+  <div class="loc-view__crumb">
+    <a routerLink="/locations" class="btn btn-ghost loc-view__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Locations
+    </a>
+    <span class="loc-view__crumb-sep">/</span>
+    <span>{{ loc.name }}</span>
+  </div>
+
+  <div class="loc-view__head">
+    <div>
+      <div class="loc-view__kicker">Location details</div>
+      <h2>{{ loc.name }}</h2>
+    </div>
+    <div class="loc-view__head-actions">
+      <button type="button" class="btn btn-icon btn-ghost" title="Edit" [routerLink]="['/locations', loc.id, 'edit']">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+      </button>
+      <button type="button" class="btn btn-icon btn-ghost" title="Back" (click)="goBack()">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-left"></use></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="loc-view__panel">
+    <div class="loc-view__row">
+      <label>Location ID</label>
+      <span>{{ loc.id }}</span>
+    </div>
+    <div class="loc-view__row">
+      <label>Name</label>
+      <span>{{ loc.name }}</span>
+    </div>
+    <div class="loc-view__row loc-view__row--full">
+      <label>Address</label>
+      <span>{{ loc.address }}</span>
+    </div>
+    <div class="loc-view__row">
+      <label>City</label>
+      <span>{{ loc.city || '—' }}</span>
+    </div>
+    <div class="loc-view__row">
+      <label>State</label>
+      <span>{{ loc.state || '—' }}</span>
+    </div>
+    <div class="loc-view__row">
+      <label>ZIP code</label>
+      <span>{{ loc.zipCode || '—' }}</span>
+    </div>
+    <div class="loc-view__row">
+      <label>Country</label>
+      <span>{{ loc.country || '—' }}</span>
+    </div>
+  </div>
+
+  <div class="loc-view__actions">
+    <button type="button" class="btn btn-secondary" routerLink="/locations">Back to list</button>
+    <button type="button" class="btn btn-primary" [routerLink]="['/locations', loc.id, 'edit']">Edit location</button>
+  </div>
+</div>
+
+<div *ngIf="!location()" class="loc-view__loading">Loading location details…</div>

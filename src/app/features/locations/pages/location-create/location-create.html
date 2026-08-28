@@ -1,0 +1,43 @@
+<div class="loc-form">
+  <div class="loc-form__crumb">
+    <a routerLink="/locations" class="btn btn-ghost loc-form__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Locations
+    </a>
+    <span class="loc-form__crumb-sep">/</span>
+    <span>Create</span>
+  </div>
+
+  <div class="loc-form__head">
+    <h2>Create location</h2>
+  </div>
+
+  <form [formGroup]="locationForm" (ngSubmit)="onSubmit()" class="loc-form__panel">
+    <div class="field">
+      <label for="loc-name">Location name *</label>
+      <input id="loc-name" class="input" formControlName="name" placeholder="Enter location name" />
+      <div class="field-error" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+        <span *ngIf="name?.hasError('required')">Location name is required</span>
+        <span *ngIf="name?.hasError('minlength')">Name must be at least 3 characters</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="loc-address">Address *</label>
+      <input id="loc-address" class="input" formControlName="address" placeholder="Enter full address" />
+      <div class="field-error" *ngIf="address?.invalid && (address?.dirty || address?.touched)">
+        <span *ngIf="address?.hasError('required')">Address is required</span>
+        <span *ngIf="address?.hasError('minlength')">Address must be at least 5 characters</span>
+      </div>
+    </div>
+
+    <div class="loc-form__actions">
+      <button type="button" class="btn btn-secondary" routerLink="/locations" [disabled]="isSubmitting()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="!locationForm.valid || isSubmitting()">
+        {{ isSubmitting() ? 'Creating…' : 'Create location' }}
+      </button>
+    </div>
+  </form>
+</div>

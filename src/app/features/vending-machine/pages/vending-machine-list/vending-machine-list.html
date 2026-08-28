@@ -1,0 +1,118 @@
+<div class="vm-list">
+  <div class="vm-list__crumb">
+    <span>Fleet</span>
+    <span class="vm-list__crumb-sep">/</span>
+    <span>Vending machines</span>
+  </div>
+
+  <div class="vm-list__head">
+    <div>
+      <h2>Vending machines</h2>
+      <div class="vm-list__stat">
+        {{ machines().length }} records · {{ activeCount() }} active · {{ maintenanceCount() }} in maintenance
+      </div>
+    </div>
+    <a class="btn btn-primary vm-list__add" routerLink="/vending-machines/create">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-plus"></use></svg>
+      Add machine
+    </a>
+  </div>
+
+  <div class="vm-list__toolbar">
+    <div class="vm-list__search">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-search"></use></svg>
+      <input
+        class="input"
+        placeholder="Search code, model or location"
+        [value]="search()"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+    <div class="seg">
+      <label class="seg-opt">
+        <input type="radio" name="vm-status" [checked]="statusFilter() === 'all'" (change)="setStatusFilter('all')" />
+        All
+      </label>
+      <label class="seg-opt">
+        <input type="radio" name="vm-status" [checked]="statusFilter() === 'ACTIVE'" (change)="setStatusFilter('ACTIVE')" />
+        Active
+      </label>
+      <label class="seg-opt">
+        <input type="radio" name="vm-status" [checked]="statusFilter() === 'MAINTENANCE'" (change)="setStatusFilter('MAINTENANCE')" />
+        Maintenance
+      </label>
+      <label class="seg-opt">
+        <input type="radio" name="vm-status" [checked]="statusFilter() === 'INACTIVE'" (change)="setStatusFilter('INACTIVE')" />
+        Inactive
+      </label>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="vm-list__loading">Loading vending machines…</div>
+
+  <ng-container *ngIf="!isLoading()">
+    <div class="vm-list__table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="vm-list__col-id">ID</th>
+            <th>Machine code</th>
+            <th>Model</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th class="vm-list__col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paged().length === 0">
+            <td colspan="6" class="vm-list__empty">No vending machines match your search.</td>
+          </tr>
+          <tr *ngFor="let m of paged()">
+            <td class="vm-list__id">{{ m.id }}</td>
+            <td class="vm-list__code">{{ m.machineCode }}</td>
+            <td>{{ m.model }}</td>
+            <td>
+              <span class="tag" [class]="m.tagClass">
+                <span class="vm-list__dot"></span>{{ m.statusLabel }}
+              </span>
+            </td>
+            <td class="vm-list__location">{{ m.locationName }}</td>
+            <td>
+              <div class="vm-list__actions">
+                <a
+                  [routerLink]="['/vending-machines', m.id, 'planogram']"
+                  class="btn btn-icon btn-ghost"
+                  title="Planogram"
+                >
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-dash"></use></svg>
+                </a>
+                <a [routerLink]="['/vending-machines', m.id]" class="btn btn-icon btn-ghost" title="View">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-eye"></use></svg>
+                </a>
+                <a [routerLink]="['/vending-machines', m.id, 'edit']" class="btn btn-icon btn-ghost" title="Edit">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+                </a>
+                <button type="button" class="btn btn-icon btn-ghost" title="Delete" (click)="deleteVendingMachine(m.id)">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-trash"></use></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="vm-list__footer">
+      <span>Showing {{ rangeStart() }}–{{ rangeEnd() }} of {{ filtered().length }}</span>
+      <div class="vm-list__pager">
+        <button type="button" class="btn btn-secondary btn-icon" title="Previous page" [disabled]="page() === 0" (click)="prevPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-left"></use></svg>
+        </button>
+        <span>Page {{ page() + 1 }} of {{ pageCount() }}</span>
+        <button type="button" class="btn btn-secondary btn-icon" title="Next page" [disabled]="page() >= pageCount() - 1" (click)="nextPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-right"></use></svg>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

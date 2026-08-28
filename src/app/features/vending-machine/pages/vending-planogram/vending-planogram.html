@@ -1,0 +1,217 @@
+<div class="pg" *ngIf="!isLoading(); else loadingTpl">
+  <div class="pg__crumb">
+    <a routerLink="/vending-machines" class="btn btn-ghost pg__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Vending machines
+    </a>
+    <span class="pg__crumb-sep">/</span>
+    <span class="pg__crumb-current">{{ machine()?.machineCode }}</span>
+    <span class="pg__crumb-sep">/</span>
+    <span>Planogram</span>
+  </div>
+
+  <div class="pg__head">
+    <div>
+      <div class="pg__kicker">Slot configuration</div>
+      <h2>{{ machine()?.machineCode }} <span class="pg__muted">planogram</span></h2>
+      <div class="pg__meta">
+        <span class="tag tag-neutral">{{ machine()?.status }}</span>
+        <span>{{ machine()?.model }}</span>
+        <span class="pg__meta-sep">·</span>
+        <span>{{ machine()?.locationName }}</span>
+      </div>
+    </div>
+    <div class="pg__stats">
+      <div class="pg__stat">
+        <div class="pg__stat-value">{{ stats().slots }}</div>
+        <div class="pg__stat-label">Slots</div>
+      </div>
+      <div class="pg__stat">
+        <div class="pg__stat-value">{{ stats().filled }}</div>
+        <div class="pg__stat-label">Assigned</div>
+      </div>
+      <div class="pg__stat">
+        <div class="pg__stat-value">{{ stats().empty }}</div>
+        <div class="pg__stat-label">Empty</div>
+      </div>
+      <div class="pg__stat">
+        <div class="pg__stat-value pg__stat-value--accent">{{ stats().low }}</div>
+        <div class="pg__stat-label">Low stock</div>
+      </div>
+      <div class="pg__stat">
+        <div class="pg__stat-value">₹{{ stats().value | number: '1.2-2' }}</div>
+        <div class="pg__stat-label">Stock value</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg__toolbar">
+    <div class="pg__search">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-search"></use></svg>
+      <input
+        class="input"
+        placeholder="Find slot or product"
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+      />
+    </div>
+    <div class="seg">
+      <label class="seg-opt">
+        <input type="radio" name="pg-filter" [checked]="filterMode() === 'all'" (change)="filterMode.set('all')" />
+        All slots
+      </label>
+      <label class="seg-opt">
+        <input type="radio" name="pg-filter" [checked]="filterMode() === 'low'" (change)="filterMode.set('low')" />
+        Low stock
+      </label>
+      <label class="seg-opt">
+        <input type="radio" name="pg-filter" [checked]="filterMode() === 'empty'" (change)="filterMode.set('empty')" />
+        Empty
+      </label>
+    </div>
+    <span class="pg__toolbar-spacer"></span>
+    <button type="button" class="btn btn-secondary" (click)="addSlot()">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-plus"></use></svg>
+      Add slot
+    </button>
+  </div>
+
+  <div class="pg__table-wrap">
+    <table class="table pg__table">
+      <thead>
+        <tr>
+          <th class="pg__col-slot">Slot</th>
+          <th>Product</th>
+          <th class="pg__col-num">Capacity</th>
+          <th class="pg__col-num">Quantity</th>
+          <th class="pg__col-fill">Fill</th>
+          <th class="pg__col-num">Price</th>
+          <th class="pg__col-num">Line value</th>
+          <th class="pg__col-active">Active</th>
+          <th class="pg__col-row-actions"><span class="pg__sr-only">Row actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="trays().length === 0">
+          <tr><td colspan="9" class="pg__empty">No slots match your search.</td></tr>
+        </ng-container>
+        <ng-container *ngFor="let tray of trays()">
+          <tr class="pg__tray-row">
+            <td colspan="9">
+              <span class="pg__tray-label">{{ tray.label }}</span>
+              <span class="pg__tray-count">{{ tray.rows.length }} slots</span>
+            </td>
+          </tr>
+          <tr
+            *ngFor="let r of tray.rows"
+            [class.pg__row--dirty]="r.dirty"
+          >
+            <td class="pg__slot-number">{{ r.slotNumber }}</td>
+            <td>
+              <div class="pg__product-cell">
+                <select
+                  class="input pg__product-select"
+                  [attr.aria-label]="'Product for slot ' + r.slotNumber"
+                  [value]="r.productId"
+                  (change)="onInputChange(r.id, 'productId', $event)"
+                >
+                  <option *ngFor="let p of catalogList()" [value]="p.id">{{ p.name }}</option>
+                </select>
+                <span class="pg__sku">{{ r.sku }}</span>
+              </div>
+            </td>
+            <td>
+              <input
+                type="number" min="0" class="input pg__num-input"
+                [attr.aria-label]="'Capacity for slot ' + r.slotNumber"
+                [value]="r.capacity"
+                (change)="onInputChange(r.id, 'capacity', $event)"
+              />
+            </td>
+            <td>
+              <input
+                type="number" min="0" class="input pg__num-input"
+                [class.pg__num-input--low]="r.low"
+                [attr.aria-label]="'Quantity for slot ' + r.slotNumber"
+                [value]="r.quantity"
+                (change)="onInputChange(r.id, 'quantity', $event)"
+              />
+            </td>
+            <td>
+              <div class="pg__fill">
+                <div class="pg__fill-track">
+                  <div
+                    class="pg__fill-bar"
+                    [class.pg__fill-bar--empty]="r.quantity === 0"
+                    [class.pg__fill-bar--low]="r.low && r.quantity > 0"
+                    [style.width.%]="r.pct"
+                  ></div>
+                </div>
+                <span class="pg__fill-pct">{{ r.pct }}%</span>
+                <button
+                  type="button" class="btn btn-icon btn-ghost pg__fill-btn"
+                  title="Fill to capacity" (click)="fillToCapacity(r)"
+                >
+                  <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-plus"></use></svg>
+                </button>
+              </div>
+            </td>
+            <td>
+              <div class="pg__price-cell">
+                <span class="pg__currency">₹</span>
+                <input
+                  type="number" min="0" step="1" class="input pg__price-input"
+                  [attr.aria-label]="'Price for slot ' + r.slotNumber"
+                  [value]="r.price"
+                  (change)="onInputChange(r.id, 'price', $event)"
+                />
+              </div>
+            </td>
+            <td class="pg__line-total">₹{{ r.lineTotal | number: '1.2-2' }}</td>
+            <td>
+              <button
+                type="button"
+                class="tag pg__active-toggle"
+                [class]="r.active ? 'tag-neutral' : 'tag-outline'"
+                [title]="r.active ? 'Disable this slot' : 'Enable this slot'"
+                (click)="toggleActive(r)"
+              >{{ r.active ? 'Active' : 'Disabled' }}</button>
+            </td>
+            <td>
+              <div class="pg__row-actions">
+                <button
+                  type="button" class="btn btn-icon btn-ghost" title="Revert this row"
+                  [disabled]="!r.dirty" (click)="revertRow(r.id)"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-left"></use></svg>
+                </button>
+                <button type="button" class="btn btn-icon btn-ghost" title="Delete slot" (click)="deleteSlot(r)">
+                  <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-trash"></use></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pg__savebar">
+    <span class="pg__savebar-note">
+      {{ savedNote() ? 'All changes saved' : 'Edit any cell directly — changed rows are marked' }}
+    </span>
+    <span class="pg__toolbar-spacer"></span>
+    <button
+      type="button" class="btn btn-secondary" [disabled]="dirtyCount() === 0 || isSaving()"
+      (click)="discardAll()"
+    >Discard</button>
+    <button
+      type="button" class="btn btn-primary pg__save-btn" [disabled]="dirtyCount() === 0 || isSaving()"
+      (click)="saveAll()"
+    >{{ isSaving() ? 'Saving…' : dirtyCount() ? 'Save ' + dirtyCount() + ' change' + (dirtyCount() > 1 ? 's' : '') : 'Saved' }}</button>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="pg__loading">Loading planogram…</div>
+</ng-template>

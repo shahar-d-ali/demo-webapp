@@ -1,0 +1,93 @@
+<div class="prod-list">
+  <div class="prod-list__crumb">
+    <span>Fleet</span>
+    <span class="prod-list__crumb-sep">/</span>
+    <span>Products</span>
+  </div>
+
+  <div class="prod-list__head">
+    <div>
+      <h2>Products</h2>
+      <div class="prod-list__stat">{{ products().length }} records</div>
+    </div>
+    <a class="btn btn-primary prod-list__add" routerLink="/products/create">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-plus"></use></svg>
+      Add product
+    </a>
+  </div>
+
+  <div class="prod-list__toolbar">
+    <div class="prod-list__search">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-search"></use></svg>
+      <input
+        class="input"
+        placeholder="Search by name, sku, brand, or category"
+        [value]="search()"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="prod-list__loading">Loading products…</div>
+
+  <ng-container *ngIf="!isLoading()">
+    <div class="prod-list__table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="prod-list__col-id">ID</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th class="prod-list__col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paged().length === 0">
+            <td colspan="7" class="prod-list__empty">No products match your search.</td>
+          </tr>
+          <tr *ngFor="let p of paged()">
+            <td class="prod-list__id">{{ p.id }}</td>
+            <td class="prod-list__name">{{ p.name }}</td>
+            <td>{{ p.sku || '—' }}</td>
+            <td>{{ p.brand || '—' }}</td>
+            <td>{{ p.category || '—' }}</td>
+            <td>
+              <span class="tag" [class.tag-accent]="p.active" [class.tag-neutral]="!p.active">
+                {{ p.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <div class="prod-list__actions">
+                <a [routerLink]="['/products', p.id]" class="btn btn-icon btn-ghost" title="View">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-eye"></use></svg>
+                </a>
+                <a [routerLink]="['/products', p.id, 'edit']" class="btn btn-icon btn-ghost" title="Edit">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+                </a>
+                <button type="button" class="btn btn-icon btn-ghost" title="Delete" (click)="deleteProduct(p.id)">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-trash"></use></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prod-list__footer">
+      <span>Showing {{ rangeStart() }}–{{ rangeEnd() }} of {{ filtered().length }}</span>
+      <div class="prod-list__pager">
+        <button type="button" class="btn btn-secondary btn-icon" title="Previous page" [disabled]="page() === 0" (click)="prevPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-left"></use></svg>
+        </button>
+        <span>Page {{ page() + 1 }} of {{ pageCount() }}</span>
+        <button type="button" class="btn btn-secondary btn-icon" title="Next page" [disabled]="page() >= pageCount() - 1" (click)="nextPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-right"></use></svg>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

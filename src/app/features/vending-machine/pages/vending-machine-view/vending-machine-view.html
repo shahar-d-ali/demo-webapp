@@ -1,0 +1,59 @@
+<div class="vm-view" *ngIf="machine() as m">
+  <div class="vm-view__crumb">
+    <a routerLink="/vending-machines" class="btn btn-ghost vm-view__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Vending machines
+    </a>
+    <span class="vm-view__crumb-sep">/</span>
+    <span>{{ m.machineCode }}</span>
+  </div>
+
+  <div class="vm-view__head">
+    <div>
+      <div class="vm-view__kicker">Vending machine details</div>
+      <h2>{{ m.machineCode }}</h2>
+    </div>
+    <div class="vm-view__head-actions">
+      <button type="button" class="btn btn-icon btn-ghost" title="Edit" (click)="onEdit()">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+      </button>
+      <button type="button" class="btn btn-icon btn-ghost" title="Back" (click)="onBack()">
+        <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-left"></use></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="vm-view__panel">
+    <div class="vm-view__row">
+      <label>Machine ID</label>
+      <span>{{ m.id }}</span>
+    </div>
+    <div class="vm-view__row">
+      <label>Machine code</label>
+      <span>{{ m.machineCode }}</span>
+    </div>
+    <div class="vm-view__row">
+      <label>Model</label>
+      <span>{{ m.model }}</span>
+    </div>
+    <div class="vm-view__row">
+      <label>Status</label>
+      <span class="tag" [class]="statusTagClass(m.status)">{{ statusLabel(m.status) }}</span>
+    </div>
+    <div class="vm-view__row">
+      <label>Location</label>
+      <span>{{ m.locationName }}</span>
+    </div>
+    <div class="vm-view__row">
+      <label>Location ID</label>
+      <span>{{ m.locationId }}</span>
+    </div>
+  </div>
+
+  <div class="vm-view__actions">
+    <button type="button" class="btn btn-secondary" (click)="onBack()">Close</button>
+    <button type="button" class="btn btn-primary" (click)="onEdit()">Edit machine</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading()" class="vm-view__loading">Loading vending machine details…</div>

@@ -1,0 +1,372 @@
+:host {
+	display: block;
+	padding: 24px;
+	color: var(--color-text);
+	font-family: var(--font-body);
+}
+
+.pg__loading {
+	padding: 60px 0;
+	text-align: center;
+	color: var(--color-neutral-700);
+	font-size: 13px;
+}
+
+.pg__crumb {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 32px;
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-neutral-700);
+	margin-bottom: 12px;
+}
+
+.pg__crumb-back {
+	height: 28px;
+	padding: 0 8px 0 4px;
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.pg__crumb-sep {
+	color: var(--color-neutral-400);
+}
+
+.pg__crumb-current {
+	color: var(--color-neutral-700);
+}
+
+.pg__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 28px;
+}
+
+.pg__kicker {
+	font-size: 10px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--color-accent-700);
+	margin-bottom: 6px;
+}
+
+.pg__head h2 {
+	margin: 0 0 6px;
+	font-size: 30px;
+	line-height: 1.05;
+}
+
+.pg__muted {
+	color: var(--color-neutral-400);
+}
+
+.pg__meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 12px;
+	color: var(--color-neutral-700);
+}
+
+.pg__meta-sep {
+	color: var(--color-neutral-400);
+}
+
+.pg__stats {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	border-top: 2px solid var(--color-divider);
+	border-bottom: 2px solid var(--color-divider);
+	flex: 1;
+	max-width: 600px;
+}
+
+.pg__stat {
+	padding: 12px 14px;
+	border-right: 1px solid var(--color-divider);
+
+	&:last-child {
+		border-right: 0;
+	}
+}
+
+.pg__stat-value {
+	font-family: var(--font-heading);
+	font-weight: 800;
+	font-size: 24px;
+	line-height: 1;
+}
+
+.pg__stat-value--accent {
+	color: var(--color-accent);
+}
+
+.pg__stat-label {
+	font-size: 9.5px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-neutral-600);
+	margin-top: 4px;
+}
+
+.pg__toolbar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 16px 0 14px;
+}
+
+.pg__search {
+	position: relative;
+	flex: 1;
+	max-width: 300px;
+
+	svg {
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		color: var(--color-neutral-600);
+	}
+
+	.input {
+		padding-left: 32px;
+		height: 34px;
+	}
+}
+
+.pg__toolbar-spacer {
+	flex: 1;
+}
+
+.pg__table-wrap {
+	overflow: auto;
+}
+
+.pg__table {
+	font-size: 13.5px;
+}
+
+.pg__col-slot { width: 76px; }
+.pg__col-num { width: 86px; text-align: right; }
+.pg__col-fill { width: 132px; }
+.pg__col-active { width: 96px; }
+.pg__col-row-actions { width: 76px; }
+
+.pg__sr-only {
+	position: absolute;
+	width: 1px; height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.pg__tray-row td {
+	padding: 14px 0 6px;
+	border-bottom: 2px solid var(--color-divider);
+}
+
+.pg__tray-label {
+	font-family: var(--font-heading);
+	font-weight: 800;
+	font-size: 12px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.pg__tray-count {
+	font-size: 11px;
+	color: var(--color-neutral-600);
+	margin-left: 10px;
+}
+
+.pg__row--dirty {
+	background: var(--color-accent-100);
+	box-shadow: inset 3px 0 0 0 var(--color-accent);
+}
+
+.pg__slot-number {
+	font-family: var(--font-heading);
+	font-weight: 800;
+	font-size: 14px;
+}
+
+.pg__product-cell {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.pg__product-select {
+	height: 32px;
+	padding: 0 6px;
+	border-color: transparent;
+	background: transparent;
+	font-family: var(--font-body);
+	font-size: 13.5px;
+	cursor: pointer;
+	min-width: 190px;
+
+	&:hover {
+		border-color: var(--color-neutral-300);
+		background: var(--color-surface);
+	}
+}
+
+.pg__sku {
+	font-size: 10.5px;
+	letter-spacing: 0.06em;
+	color: var(--color-neutral-600);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.pg__num-input {
+	height: 32px;
+	padding: 0 8px;
+	text-align: right;
+	border-color: transparent;
+	background: transparent;
+	font-variant-numeric: tabular-nums;
+	font-size: 13.5px;
+
+	&:hover {
+		border-color: var(--color-neutral-300);
+		background: var(--color-surface);
+	}
+}
+
+.pg__num-input--low {
+	font-weight: 600;
+	color: var(--color-accent-700);
+}
+
+.pg__fill {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.pg__fill-track {
+	flex: 1;
+	height: 8px;
+	background: var(--color-neutral-200);
+}
+
+.pg__fill-bar {
+	height: 8px;
+	background: var(--color-neutral-700);
+}
+
+.pg__fill-bar--low {
+	background: var(--color-accent);
+}
+
+.pg__fill-bar--empty {
+	background: var(--color-neutral-300);
+}
+
+.pg__fill-pct {
+	font-size: 10.5px;
+	color: var(--color-neutral-600);
+	font-variant-numeric: tabular-nums;
+	width: 32px;
+	text-align: right;
+}
+
+.pg__fill-btn {
+	height: 24px;
+	width: 24px;
+	padding: 0;
+	justify-content: center;
+	color: var(--color-neutral-600);
+
+	&:hover {
+		color: var(--color-accent);
+		background: var(--color-accent-100);
+	}
+}
+
+.pg__price-cell {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2px;
+}
+
+.pg__currency {
+	font-size: 12px;
+	color: var(--color-neutral-600);
+}
+
+.pg__price-input {
+	height: 32px;
+	padding: 0 6px;
+	text-align: right;
+	border-color: transparent;
+	background: transparent;
+	font-variant-numeric: tabular-nums;
+	font-size: 13.5px;
+	width: 66px;
+
+	&:hover {
+		border-color: var(--color-neutral-300);
+		background: var(--color-surface);
+	}
+}
+
+.pg__line-total {
+	text-align: right;
+	color: var(--color-neutral-700);
+	font-variant-numeric: tabular-nums;
+}
+
+.pg__active-toggle {
+	cursor: pointer;
+	border-width: 1px;
+	background: none;
+}
+
+.pg__row-actions {
+	display: flex;
+	gap: 2px;
+	justify-content: flex-end;
+
+	.btn-ghost {
+		color: var(--color-neutral-700);
+
+		&:hover {
+			color: var(--color-accent);
+			background: var(--color-accent-100);
+		}
+	}
+}
+
+.pg__empty {
+	text-align: center;
+	color: var(--color-neutral-600);
+	padding: 32px 0;
+}
+
+.pg__savebar {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 0;
+	margin-top: 4px;
+	border-top: 2px solid var(--color-divider);
+}
+
+.pg__savebar-note {
+	font-size: 12px;
+	color: var(--color-neutral-700);
+}
+
+.pg__save-btn {
+	min-width: 160px;
+	justify-content: flex-start;
+}

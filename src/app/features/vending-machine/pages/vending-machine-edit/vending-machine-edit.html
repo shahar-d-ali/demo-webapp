@@ -1,0 +1,55 @@
+<div class="vm-form">
+  <div class="vm-form__crumb">
+    <a routerLink="/vending-machines" class="btn btn-ghost vm-form__crumb-back">
+      <svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-left"></use></svg>
+      Vending machines
+    </a>
+    <span class="vm-form__crumb-sep">/</span>
+    <span>Edit</span>
+  </div>
+
+  <div class="vm-form__head">
+    <h2>Edit vending machine</h2>
+  </div>
+
+  <div *ngIf="isLoading()" class="vm-form__loading">Loading vending machine…</div>
+
+  <form *ngIf="!isLoading()" [formGroup]="form" (ngSubmit)="onSubmit()" class="vm-form__panel">
+    <div class="field">
+      <label for="vm-code">Machine code *</label>
+      <input id="vm-code" class="input" formControlName="machineCode" placeholder="e.g., VM-001" />
+      <div class="field-error" *ngIf="machineCodeError">{{ machineCodeError }}</div>
+    </div>
+
+    <div class="field">
+      <label for="vm-model">Model *</label>
+      <input id="vm-model" class="input" formControlName="model" placeholder="e.g., VendMax 3000" />
+      <div class="field-error" *ngIf="modelError">{{ modelError }}</div>
+    </div>
+
+    <div class="field">
+      <label for="vm-status">Status *</label>
+      <select id="vm-status" class="input" formControlName="status">
+        <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+      </select>
+      <div class="field-error" *ngIf="form.get('status')?.hasError('required')">Status is required</div>
+    </div>
+
+    <div class="field">
+      <label for="vm-location">Location *</label>
+      <select id="vm-location" class="input" formControlName="locationId">
+        <option *ngFor="let location of locations()" [value]="location.id">{{ location.name }}</option>
+      </select>
+      <div class="field-error" *ngIf="form.get('locationId')?.hasError('required')">Location is required</div>
+    </div>
+
+    <div class="vm-form__actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isSubmitting()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting()">
+        {{ isSubmitting() ? 'Updating…' : 'Update machine' }}
+      </button>
+    </div>
+  </form>
+</div>

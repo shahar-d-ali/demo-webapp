@@ -1,0 +1,87 @@
+<div class="loc-list">
+  <div class="loc-list__crumb">
+    <span>Fleet</span>
+    <span class="loc-list__crumb-sep">/</span>
+    <span>Locations</span>
+  </div>
+
+  <div class="loc-list__head">
+    <div>
+      <h2>Locations</h2>
+      <div class="loc-list__stat">{{ locations().length }} records</div>
+    </div>
+    <a class="btn btn-primary loc-list__add" routerLink="/locations/create">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-plus"></use></svg>
+      Add location
+    </a>
+  </div>
+
+  <div class="loc-list__toolbar">
+    <div class="loc-list__search">
+      <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-search"></use></svg>
+      <input
+        class="input"
+        placeholder="Search name, address, city or state"
+        [value]="search()"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="loc-list__loading">Loading locations…</div>
+
+  <ng-container *ngIf="!isLoading()">
+    <div class="loc-list__table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="loc-list__col-id">ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th class="loc-list__col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paged().length === 0">
+            <td colspan="6" class="loc-list__empty">No locations match your search.</td>
+          </tr>
+          <tr *ngFor="let l of paged()">
+            <td class="loc-list__id">{{ l.id }}</td>
+            <td class="loc-list__name">{{ l.name }}</td>
+            <td class="loc-list__address">{{ l.address }}</td>
+            <td>{{ l.city || '—' }}</td>
+            <td>{{ l.state || '—' }}</td>
+            <td>
+              <div class="loc-list__actions">
+                <a [routerLink]="['/locations', l.id]" class="btn btn-icon btn-ghost" title="View">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-eye"></use></svg>
+                </a>
+                <a [routerLink]="['/locations', l.id, 'edit']" class="btn btn-icon btn-ghost" title="Edit">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-edit"></use></svg>
+                </a>
+                <button type="button" class="btn btn-icon btn-ghost" title="Delete" (click)="deleteLocation(l.id)">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><use href="#i-trash"></use></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="loc-list__footer">
+      <span>Showing {{ rangeStart() }}–{{ rangeEnd() }} of {{ filtered().length }}</span>
+      <div class="loc-list__pager">
+        <button type="button" class="btn btn-secondary btn-icon" title="Previous page" [disabled]="page() === 0" (click)="prevPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-left"></use></svg>
+        </button>
+        <span>Page {{ page() + 1 }} of {{ pageCount() }}</span>
+        <button type="button" class="btn btn-secondary btn-icon" title="Next page" [disabled]="page() >= pageCount() - 1" (click)="nextPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#i-right"></use></svg>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
